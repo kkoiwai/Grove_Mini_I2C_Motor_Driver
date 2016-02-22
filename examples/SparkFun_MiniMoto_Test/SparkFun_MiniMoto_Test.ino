@@ -17,8 +17,8 @@ Code developed in Arduino 1.0.5, on a Fio classic board.
 #include <SparkFunMiniMoto.h>  // Include the MiniMoto library
 
 // Create two MiniMoto instances, with different address settings.
-MiniMoto motor0(0xCE); // A1 = 1, A0 = clear
-MiniMoto motor1(0xD0); // A1 = 1, A0 = 1 (default)
+MiniMoto motor0(0xC4); // A1 = 1, A0 = clear
+MiniMoto motor1(0xC0); // A1 = 1, A0 = 1 (default)
 
 #define FAULTn  16     // Pin used for fault detection.
 
@@ -39,21 +39,21 @@ void setup()
 void loop()
 {
   Serial.println("Forward!");
-  motor0.drive(10);
-  motor1.drive(10);
-  delayUntil(10000);
+  motor0.drive(100);
+  motor1.drive(100);
+  delayUntil(1000);
   Serial.println("Stop!");
   motor0.stop();
   motor1.stop();
-  delay(2000);
+  delay(1000);
   Serial.println("Reverse!");
-  motor0.drive(-10);
-  motor1.drive(-10);
-  delayUntil(10000);
+  motor0.drive(-100);
+  motor1.drive(-100);
+  delayUntil(1000);
   Serial.println("Brake!");
   motor0.brake();
   motor1.brake();
-  delay(2000);
+  delay(1000);
 }
 
 // delayUntil() is a little function to run the motor either for

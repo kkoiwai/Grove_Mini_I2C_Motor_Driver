@@ -1,11 +1,11 @@
 SparkFun MiniMoto Arduino Library
 ========================================
 
-![SparkFun MiniMoto](https://cdn.sparkfun.com//assets/parts/8/3/1/8/11890-01.jpg)
+![Grove - Mini I2C Motor Driver](http://www.seeedstudio.com/depot/bmz_cache/1/1511b59436c178e7a35b8af14e93a9a9.image.530x397.jpg)
 
-[*SparkFun MiniMoto (BOB-11890)*](https://www.sparkfun.com/products/11890)
+[*Grove - Mini I2C Motor Driver*](http://www.seeedstudio.com/depot/Grove%C2%A0%C2%A0I2C%C2%A0Mini%C2%A0Motor%C2%A0Driver-p-2508.html?cPath=91_92)
 
-Arduino Library for the SparkFun MiniMoto board, which uses the TI DRV8830 IC for I2C low-voltage DC motor control.
+Arduino Library for the Grove - Moni I2C Motor Driver(SparkFun MiniMoto board), which uses the TI DRV8830 IC for I2C low-voltage DC motor control.
 Communication protocol of I2C, operating voltage of 2.7V to 6.8V and is good for small robotics projects.
 This library provides basic functionality.
 
@@ -23,11 +23,6 @@ Documentation
 * **[Product Repository](https://github.com/sparkfun/MiniMoto)** - Main repository (including hardware files) for the MiniMoto.
 * **[Hookup Guide](https://learn.sparkfun.com/tutorials/minimoto-drv8830-hookup-guide)** - Basic hookup guide for the MiniMoto.
 
-Products that use this Library 
----------------------------------
-
-* [BOB-11890](https://www.sparkfun.com/products/11890)- MiniMoto Breakout
-
 
 License Information
 -------------------
@@ -41,4 +36,8 @@ Please use, reuse, and modify these files as you see fit. Please maintain attrib
 Distributed as-is; no warranty is given.
 
 - Your friends at SparkFun.
+
+Thanks friends at SparkFun write this useful library. And we had did a little modify to it, such as add code to driver stepper. 
+
+- Your friends at Seeed.
 
