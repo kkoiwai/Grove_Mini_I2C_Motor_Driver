@@ -32,8 +32,8 @@
 #include "Hercules_Stepper.h"
 
 // Create two MiniMoto instances, with different address settings.
-MiniMoto motor0(0xC4); // A1 = 1, A0 = clear
-MiniMoto motor1(0xC0); // A1 = 1, A0 = 1 (default)
+MiniMoto motorA(0xC4); // A1 = 1, A0 = clear
+MiniMoto motorB(0xC0); // A1 = 1, A0 = 1 (default)
 
 /*
  *   constructor for four-pin version
@@ -125,8 +125,8 @@ void stepper_4wd::stepMotor(int thisStep)
             digitalWrite(motor_pin_b_plus, HIGH);
             digitalWrite(motor_pin_b_minus, LOW);
             */
-            motor0.drive(100);
-            motor1.drive(100);
+            motorA.drive(100);
+            motorB.drive(100);
             
             
             break;
@@ -136,8 +136,8 @@ void stepper_4wd::stepMotor(int thisStep)
             digitalWrite(motor_pin_b_plus, HIGH);
             digitalWrite(motor_pin_b_minus, LOW);
             */
-            motor0.drive(-100);
-            motor1.drive(100);
+            motorA.drive(-100);
+            motorB.drive(100);
             
             break;
             case 2:    //0101
@@ -146,8 +146,8 @@ void stepper_4wd::stepMotor(int thisStep)
             digitalWrite(motor_pin_b_plus, LOW);
             digitalWrite(motor_pin_b_minus, HIGH);
             
-            motor0.drive(-100);
-            motor1.drive(-100);
+            motorA.drive(-100);
+            motorB.drive(-100);
             
             break;
             case 3:    //1001
@@ -156,8 +156,8 @@ void stepper_4wd::stepMotor(int thisStep)
             digitalWrite(motor_pin_b_plus, LOW);
             digitalWrite(motor_pin_b_minus, HIGH);
             
-            motor0.drive(100);
-            motor1.drive(-100);
+            motorA.drive(100);
+            motorB.drive(-100);
             
             break;
             default:
@@ -166,8 +166,8 @@ void stepper_4wd::stepMotor(int thisStep)
             digitalWrite(motor_pin_b_plus, 0);
             digitalWrite(motor_pin_b_minus, 0);
             
-            motor0.drive(0);
-            motor1.drive(0);
+            motorA.drive(0);
+            motorB.drive(0);
             
             break;
         }
