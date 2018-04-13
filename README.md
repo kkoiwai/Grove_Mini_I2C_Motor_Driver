@@ -1,13 +1,15 @@
 SparkFun MiniMoto Arduino Library
 ========================================
 
-![Grove - Mini I2C Motor Driver](http://www.seeedstudio.com/depot/bmz_cache/1/1511b59436c178e7a35b8af14e93a9a9.image.530x397.jpg)
+<img src=https://statics3.seeedstudio.com/images/product/105020010%202.jpg width=400><img src=https://statics3.seeedstudio.com/product/105020010%202_02.jpg width=400>
 
 [*Grove - Mini I2C Motor Driver*](http://www.seeedstudio.com/depot/Grove%C2%A0%C2%A0I2C%C2%A0Mini%C2%A0Motor%C2%A0Driver-p-2508.html?cPath=91_92)
 
 Arduino Library for the Grove - Moni I2C Motor Driver(SparkFun MiniMoto board), which uses the TI DRV8830 IC for I2C low-voltage DC motor control.
 Communication protocol of I2C, operating voltage of 2.7V to 6.8V and is good for small robotics projects.
 This library provides basic functionality.
+
+You can visit [Seeed_wiki](http://wiki.seeedstudio.com/Grove-Mini_I2C_Motor_Driver_v1.0/) for more information.
 
 Repository Contents
 -------------------
