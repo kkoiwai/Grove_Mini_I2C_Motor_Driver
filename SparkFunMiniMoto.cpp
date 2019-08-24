@@ -12,21 +12,26 @@ us at the local.
 Code developed in Arduino 1.0.5, on a Fio classic board.
 
 **Updated for Arduino 1.6.4 5/2015**
+**Updated to use Wire library**
 ****************************************************************/
 
 
 #include <Arduino.h>
-#include "SparkFunMiniMoto.h"
+#include <Wire.h>
+
+#include "ArduinoMiniMoto.h"
 
 // The address of the part is set by a jumper on the board. 
 //  See datasheet or schematic for details; default is 0xD0.
 MiniMoto::MiniMoto(byte addr)
 {
   _addr = addr;
-  
-  // This sets the bit rate of the bus; I want 100kHz. See the
-  //  datasheet for details on how I came up with this value.
-  TWBR = 72;
+}
+
+
+void MiniMoto::begin()
+{
+  Wire.begin();
 }
 
 // Return the fault status of the DRV8830 chip. Also clears any existing faults.
@@ -80,80 +85,25 @@ void MiniMoto::brake()
 // Private function that reads some number of bytes from the accelerometer.
 void MiniMoto::I2CReadBytes(byte addr, byte *buffer, byte len)
 {
-  byte temp = 0;
-  // First, we need to write the address we want to read from, so issue a write
-  //  with that address. That's two steps: first, the slave address:
-  TWCR = START_COND;          // Send a start condition         
-  while (!(TWCR&(1<<TWINT))); // When TWINT is set, start is complete, and we
-                              //  can initiate data transfer.
-  TWDR = _addr;          // Load the slave address
-  TWCR = CLEAR_TWINT;         // Clear TWINT to begin transmission (I know,
-                              //  it LOOKS like I'm setting it, but this is
-                              //  how we clear that bit. Dumb.)
-  while (!(TWCR&(1<<TWINT))); // Wait for TWINT again.
-  // Now, we need to send the address we want to read from:
-  TWDR = addr;                // Load the slave address
-  TWCR = CLEAR_TWINT;        // Clear TWINT to begin transmission (I know,
-                              //  it LOOKS like I'm setting it, but this is
-                              //  how we clear that bit. Dumb.)
-  while (!(TWCR&(1<<TWINT))); // Wait for TWINT again.
-  TWCR = STOP_COND;
-  
-  // Now, we issue a repeated start (by doing what we just did again), and this
-  //  time, we set the READ bit as well.
-  TWCR = START_COND;          // Send a start condition
-  while (!(TWCR&(1<<TWINT))); // When TWINT is set, start is complete, and we
-                              //  can initiate data transfer.
-  TWDR = (_addr) | I2C_READ;  // Load the slave address and set the read bit
-  TWCR = CLEAR_TWINT;        // Clear TWINT to begin transmission (I know,
-                              //  it LOOKS like I'm setting it, but this is
-                              //  how we clear that bit. Dumb.)
-  while (!(TWCR&(1<<TWINT))); // Wait for TWINT again.
-  
-  // Now, we can fetch data from the slave by clearing TWINT, waiting, and
-  //  reading the data. Rinse, repeat, as often as needed.
-  for (byte i = 0; i < len; i++)
+  Wire.beginTransmission(_addr); 
+  Wire.write(addr); 
+  Wire.endTransmission(); 
+
+  Wire.requestFrom(_addr, len);
+  for (byte i = 0; i < len && Wire.available() ; i++)
   {
-    if (i == len-1) TWCR = CLEAR_TWINT; // Clear TWINT to begin transmission (I know,
-                                //  it LOOKS like I'm setting it, but this is
-                                //  how we clear that bit. Dumb.)
-    else TWCR = NEXT_BYTE;
-    while (!(TWCR&(1<<TWINT))); // Wait for TWINT again.
-    buffer[i] = TWDR;           // Now our data can be fetched from TWDR.
+    buffer[i] = Wire.read();
   }
-  // Now that we're done reading our data, we can transmit a stop condition.
-  TWCR = STOP_COND;
+
 }
 
 void MiniMoto::I2CWriteBytes(byte addr, byte *buffer, byte len)
 {
-  // First, we need to write the address we want to read from, so issue a write
-  //  with that address. That's two steps: first, the slave address:
-  TWCR = START_COND;          // Send a start condition         
-  while (!(TWCR&(1<<TWINT))); // When TWINT is set, start is complete, and we
-                              //  can initiate data transfer.
-  TWDR = _addr;          // Load the slave address
-  TWCR = CLEAR_TWINT;         // Clear TWINT to begin transmission (I know,
-                              //  it LOOKS like I'm setting it, but this is
-                              //  how we clear that bit. Dumb.)
-  while (!(TWCR&(1<<TWINT))); // Wait for TWINT again.
-  // Now, we need to send the address we want to read from:
-  TWDR = addr;                // Load the slave address
-  TWCR |= CLEAR_TWINT;         // Clear TWINT to begin transmission (I know,
-                              //  it LOOKS like I'm setting it, but this is
-                              //  how we clear that bit. Dumb.)
-  while (!(TWCR&(1<<TWINT))); // Wait for TWINT again.
-  
-  // Now, we can send data to the slave by putting data into TWDR, clearing
-  //  TWINT, and waiting for TWINT. Rinse, repeat, as often as needed.
+  Wire.beginTransmission(_addr); 
+  Wire.write(addr); 
   for (byte i = 0; i < len; i++)
   {
-    TWDR = buffer[i];           // Now our data can be sent to TWDR.
-    TWCR |= CLEAR_TWINT;        // Clear TWINT to begin transmission (I know,
-                                //  it LOOKS like I'm setting it, but this is
-                                //  how we clear that bit. Dumb.)
-    while (!(TWCR&(1<<TWINT))); // Wait for TWINT again.
-  }
-  // Now that we're done writing our data, we can transmit a stop condition.
-  TWCR = STOP_COND;
+    Wire.write(buffer[i]);
+  } 
+  Wire.endTransmission(); 
 }

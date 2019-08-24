@@ -12,21 +12,14 @@ us at the local.
 Code developed in Arduino 1.0.5, on a Fio classic board.
 
 **Updated for Arduino 1.6.4 5/2015**
+**Updated to use Wire library**
 ****************************************************************/
 
 
-#ifndef SparkFunMiniMoto_h
-#define SparkFunMiniMoto_h
+#ifndef ArduinoMiniMoto_h
+#define ArduinoMiniMoto_h
 
 #include <Arduino.h>
-
-// I2C support constants
-#define I2C_READ    0x01 // I2C read bit set
-// Some values we'll load into TWCR a lot
-#define START_COND  0xA4 // (1<<TWINT) | (1<<TWSTA) | (1<<TWEN)
-#define STOP_COND   0x94 // (1<<TWINT) | (1<<TWSTO) | (1<<TWEN)
-#define CLEAR_TWINT 0x84 // (1<<TWINT) | (1<<TWEN)
-#define NEXT_BYTE   0xC4 // (1<<TWINT) | (1<<TWEA) | (1<<TWEN)
 
 // Fault constants
 #define FAULT 0x01
@@ -43,6 +36,7 @@ class MiniMoto
     void stop();
     void brake();
     byte getFault();
+    void begin();
   private:
     void I2CWriteBytes(byte addr, byte *buffer, byte len);
     void I2CReadBytes(byte addr, byte *buffer, byte len);
