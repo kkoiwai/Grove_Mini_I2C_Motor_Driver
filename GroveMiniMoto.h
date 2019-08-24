@@ -16,8 +16,8 @@ Code developed in Arduino 1.0.5, on a Fio classic board.
 ****************************************************************/
 
 
-#ifndef ArduinoMiniMoto_h
-#define ArduinoMiniMoto_h
+#ifndef GroveMiniMoto_h
+#define GroveMiniMoto_h
 
 #include <Arduino.h>
 

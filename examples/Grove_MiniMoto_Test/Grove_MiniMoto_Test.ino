@@ -14,13 +14,11 @@ Code developed in Arduino 1.0.5, on a Fio classic board.
 **Updated for Arduino 1.6.4 5/2015**
 ****************************************************************/
 
-#include <SparkFunMiniMoto.h>  // Include the MiniMoto library
+#include <GroveMoto.h> // Include the MiniMoto library
 
 // Create two MiniMoto instances, with different address settings.
-MiniMoto motor0(0xC4); // A1 = 1, A0 = clear
-MiniMoto motor1(0xC0); // A1 = 1, A0 = 1 (default)
-
-#define FAULTn  16     // Pin used for fault detection.
+MiniMoto motor0(0x65); // 0x65 = (0xCA >> 1); // A1 = 1, A0 = clear
+MiniMoto motor1(0x60); // 0x60 = (0xC0 >> 1); // A1 = 1, A0 = 1 (default)
 
 // Nothing terribly special in the setup() function- prep the
 //  serial port, print a little greeting, and set up our fault
@@ -29,7 +27,6 @@ void setup()
 {
   Serial.begin(9600);
   Serial.println("Hello, world!");
-  pinMode(FAULTn, INPUT);
 }
 
 // The loop() function just spins the motors one way, then the
@@ -68,35 +65,39 @@ void delayUntil(unsigned long elapsedTime)
   unsigned long startTime = millis();
   while (startTime + elapsedTime > millis())
   {
-    // If FAULTn goes low, a fault condition *may* exist. To be
-    //  sure, we'll need to check the FAULT bit.
-    if (digitalRead(FAULTn) == LOW)
+
+    // We're going to check both motors; the logic is the same
+    //  for each...
+    byte result = motor0.getFault();
+    // If result masked by FAULT is non-zero, we've got a fault
+    //  condition, and we should report it.
+    if (result & FAULT)
     {
-      // We're going to check both motors; the logic is the same
-      //  for each...
-      byte result = motor0.getFault();
-      // If result masked by FAULT is non-zero, we've got a fault
-      //  condition, and we should report it.
-      if (result & FAULT)
-      {
-        Serial.print("Motor 0 fault: ");
-        if (result & OCP) Serial.println("Chip overcurrent!");
-        if (result & ILIMIT) Serial.println("Load current limit!");
-        if (result & UVLO) Serial.println("Undervoltage!");
-        if (result & OTS) Serial.println("Over temp!");
-        break; // We want to break out of the motion immediately,
-               //  so we can stop motion in response to our fault.
-      }
-      result = motor1.getFault();
-      if (result & FAULT)
-      {
-        Serial.print("Motor 1 fault: ");
-        if (result & OCP) Serial.println("Chip overcurrent!");
-        if (result & ILIMIT) Serial.println("Load current limit!");
-        if (result & UVLO) Serial.println("Undervoltage!");
-        if (result & OTS) Serial.println("Over temp!");
-        break;
-      }
+      Serial.print("Motor 0 fault: ");
+      if (result & OCP)
+        Serial.println("Chip overcurrent!");
+      if (result & ILIMIT)
+        Serial.println("Load current limit!");
+      if (result & UVLO)
+        Serial.println("Undervoltage!");
+      if (result & OTS)
+        Serial.println("Over temp!");
+      break; // We want to break out of the motion immediately,
+             //  so we can stop motion in response to our fault.
+    }
+    result = motor1.getFault();
+    if (result & FAULT)
+    {
+      Serial.print("Motor 1 fault: ");
+      if (result & OCP)
+        Serial.println("Chip overcurrent!");
+      if (result & ILIMIT)
+        Serial.println("Load current limit!");
+      if (result & UVLO)
+        Serial.println("Undervoltage!");
+      if (result & OTS)
+        Serial.println("Over temp!");
+      break;
     }
   }
 }

@@ -19,7 +19,7 @@ Code developed in Arduino 1.0.5, on a Fio classic board.
 #include <Arduino.h>
 #include <Wire.h>
 
-#include "ArduinoMiniMoto.h"
+#include "GroveMiniMoto.h"
 
 // The address of the part is set by a jumper on the board. 
 //  See datasheet or schematic for details; default is 0xD0.
