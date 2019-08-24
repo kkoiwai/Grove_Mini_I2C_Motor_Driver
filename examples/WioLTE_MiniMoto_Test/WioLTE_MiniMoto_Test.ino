@@ -7,7 +7,6 @@ WioLTE Wio;
 // Since Wire library takes a 7-bit i2c address, the original addresses are shifted to right by 1 bit.
 MiniMoto motor0(0x65);  // 0x65 = (0xCA >> 1)
 MiniMoto motor1(0x60);  // 0x60 = (0xC0 >> 1)
-WioLTE Wio;
 
 
 // Nothing terribly special in the setup() function- prep the
