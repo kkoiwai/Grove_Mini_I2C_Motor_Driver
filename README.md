@@ -1,4 +1,4 @@
-SparkFun MiniMoto Arduino Library
+Grove_Mini_I2C_Motor_Driver Arduino Library
 ========================================
 
 <img src=https://statics3.seeedstudio.com/images/product/105020010%202.jpg width=400><img src=https://statics3.seeedstudio.com/product/105020010%202_02.jpg width=400>
@@ -43,3 +43,6 @@ Thanks friends at SparkFun write this useful library. And we had did a little mo
 
 - Your friends at Seeed.
 
+Thanks for all the forks contributed to the project. I modified to use Wire library so that it works on Wio-LTE.
+
+- Your friends, Kosuke.
